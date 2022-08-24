@@ -1,3 +1,5 @@
+package amazon_oa;
+
 import java.io.*;
 import java.util.*;
 // import stat ;
@@ -29,7 +31,7 @@ class MinShipCost {
       int diff = curNum - startNum;
       //COndition: two numbers are not neighbor and the remain items are still not added.
       if(diff > 1 && count > 0){
-        long range = Math.min(diff - 1, count); // remove the 0 impact. and checking which one is smaller and assigned it range. 
+        long range = Math.min(diff - 1, count); // diff - 1: not adding the curNum into the sum.  and checking which one is smaller and assigned it range. 
 
         //(a1+an)*n/2
         res += (startNum + 1 + startNum + range) * range / 2;

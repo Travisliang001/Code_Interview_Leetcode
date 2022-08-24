@@ -1,0 +1,4 @@
+1. using binary search to guess the answer. (getting approach to the real answer)
+
+
+2.

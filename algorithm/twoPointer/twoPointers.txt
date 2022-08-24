@@ -1,0 +1,5 @@
+1.  same directions two pointers
+2. different directions two pointers
+3. fast slow pointer (linkedlist)
+4. quick sorted
+5. monotonic queue and stack. 

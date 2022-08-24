@@ -1,0 +1,10 @@
+1. subsequence: allow gaps eceba -> eceba
+2. subString: do not allow gaps ->ece
+
+重要的Topics (请按照1到6的顺序刷题，你会刷得很舒服！）
+1. Recursion I / II
+2. Array and String
+3. Binary Search
+4. Binary Tree
+5. Binary Search Tree
+6. Linked List

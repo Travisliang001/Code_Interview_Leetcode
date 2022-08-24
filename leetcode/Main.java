@@ -1,4 +1,4 @@
-package amazon_oa;
+package leetcode;
 
 import java.io.*;
 import java.util.*;

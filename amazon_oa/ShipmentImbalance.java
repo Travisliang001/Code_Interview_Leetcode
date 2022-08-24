@@ -1,3 +1,4 @@
+package amazon_oa;
 import java.io.*;
 import java.util.*;
 // import stat ;
@@ -20,7 +21,7 @@ class ShipmentImbalance {
         int min = input[parentIdx];
       for(int childIdx=parentIdx+1; childIdx<length; childIdx++){
         int current = input[childIdx];
-        max = Math.max(max, current);
+        max = Math.max(max, current); 
         min = Math.min(min, current);
         res += max - min;
 
