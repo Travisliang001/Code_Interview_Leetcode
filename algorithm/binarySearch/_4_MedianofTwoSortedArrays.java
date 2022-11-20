@@ -35,7 +35,12 @@ public class _4_MedianofTwoSortedArrays {
 
             }
             return res;
-
-
     }
-}
+    // 1. left = 0, right = 4, x = 2, y = 3, nums1Left = 4, nums1Right = 5, nums2Left = 7, nums2Right = 9
+                            // 2  4 | 5  6
+                            // 1  4  7 | 9  10 (12)
+                            // left = 2 + 1 = 3;
+    // 2. left = 3, right 4, x = 3, y = 2, nums1Left = 5, nums1Right = 6, nums2Left = 4, nums2Right = 7
+                            // 2  4   5  |  6
+                            //1   4 | 7  9  10 
+                        }

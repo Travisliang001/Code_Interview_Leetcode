@@ -1,0 +1,42 @@
+1. Requirement Clarification(View counter application)
+    a. users/customers
+        1) who will use the system -> is this all youtube viewers who will see total views count for a video; is this a per-hour statistics available to a video owner only 
+        2) how the system will be used -> the data maybe used by marketing department only to generate some monthly reports(Data is not retrieved not often)
+                                        -> Or the data  is sent to recommendation service in real-time. Meaning that the data may be retrieved from the system with a very high pace. 
+    b. Scale (read and write)
+        1) How much data is coming to the system and how much data is retieved from the system.
+        2) How many read queries per second the system; How much data is queried per request; How many video views are processed per second?; Can there be spikes in traffic?   
+    c. performance
+        1) what is expected write-to-read data delay?(EX: not requred for real time: if we can count views several hours later than these views actually happened or Both bach data processing and stream processing design options can be considred. )
+                    (Required for real time needed: we need to count views on the fly or in other words )
+        2) what is expected p99 latency for read queries? [It means that 99% of the requests should be faster than given latency. In other words only 1% of the requests are allowed to be slower.]
+            If interviewer tells us that response time must be as smmall as possible, its hint that we must count views when we write data and we should do minimal or no counting when we read data. In other words data must already be aggregated  
+    d. cost
+        1) should the design minimize the cost of development
+            Leaning towrards well regarded open-source frameworks
+        2) should the deisgn minimize the cost of manitenance
+            consider public cloud services
+
+    End goal: 
+    a. Think along 4 categories mentioned here, think about data - what data, how it gets in and gets our of the system, 
+    b. Think about both functional and non-functional requirements.
+
+
+2. Functional Requirements - API:
+    1). the system has to count video view events.
+        a. countViewEvent(videoID)
+        b. countEvent(VideoId, eventType)[where eventType can be "view", "like" and "share"]
+        c. processEvent(videoId, eventType, function) [where function can be "count" and "sum" and "average"]
+        d. processEvents(listOfEvents) [Where listOfEvent contains different events that contain all the details.]
+    2). The system has to return video views count for a time period.
+        a. getViewsCount(videoId, startTime, endTime)
+        b. getCount(videoId, eventType, startTime, endTime)
+        c. getStats(videoId, eventType, function, startTime, endTime)
+
+    Following this simple technique will help identify names of APIs, input Parameters and make several iterations to generalize APIs 
+
+3. Non-functional requirements - API:
+    ***Focus Point****: Scalability, Performance and Availablility.
+        1) Scalability: Handle tens of thousands of video views per second.
+        2) Highly Performant9:55
+

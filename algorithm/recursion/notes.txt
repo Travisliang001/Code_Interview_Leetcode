@@ -1,0 +1,319 @@
+Recursion type:
+    1. Memorization(avoid repeat calculation)  70,509
+    2. Divide and Conquer(Make sure to combine the results of each sub problem)  700  98
+    3. backtracking (find all the results that satisfy xxx conditions) find every possible solution once it failed then stop. 22
+
+Recursion formula:
+    1. define the base case,
+    2. define the recursion relation.
+
+Recurrence Relation:
+    1. recurrrence relation: the relationship between the result of a problem and the result of its sub problems
+    2. base case: the case where one can compute the answer directly without any further recursion calls. 
+
+1. Memorization formula:
+    idea: if the recursion will end up getting repeat calculation, we can ause cache to record the answer and avoid repeat calculation.
+
+    //Initialize a cache
+    Map<String, String> Map = new HashMap<>();
+
+    public int recursion(String arg){
+        if(map.containsKey(arg)){
+            return map[arg]; //return the value from cache
+        }
+        #base
+        
+        #Recursion relation
+
+        #Save the answer
+        Map[arg] = result
+    }
+
+    //FibonacciNumber, pasalTriangle,
+
+2. Divide and Conquer:
+    Idea: 
+        Divide: Divide the problem S into a set of subproblem:{S1, S2, S3---Sn} where n >= 2, there are more than one subproblem
+        Conquer: Solve each subProblem resursively.
+        Combine: Combine the results of each subproblem.
+
+    Template:
+        def divide_and_conquer(S):
+            // Divide the problem into a set of subproblems.
+            [S1, S2, Sn] = divide(S)
+
+            // Solve the subproblem recursively,
+            // obtain the results of subproblems as [R1, R2, ... Rn]
+            rets = [divide_and_conquer(si) for Si in [S1, S2, ... Sn]]
+            [R1, R2, ... Rn] = rets
+
+            //combinbe the results from the subproblems.
+            // return the combined result.
+
+            return combine([R1, R2, .... Rn])
+
+The essential part of D&C is to figure out the recurrence relationship between the subproblems and the original problem,, which subsequently defines the functions of divide() and combine(). 
+
+    Merge sort:
+        top-down:
+        public int [] merge_sort(int [] input){
+            
+            if(input.length <= 1){
+                return input;
+            }
+            int pivot = input.length /2;
+            int [] left_list = merge_sort(Arrays.copyOfRange(input, 0, pivot)); //from: inclusive, to : exclusive
+            int [] right_list = merge_sort(Arrays.copyOfRange(input, pivot, input.length));
+            //base case when the list is only have one element or null
+            return merge(left_list, right_list);
+        }
+
+        public int [] merge(int [] left_list, int [] right){
+            int [] res = new int [left_list.length + right_listlength];
+            int left_cursor = 0, right_cursor = 0, res_cursor = 0;
+
+            while(left_cursor < left_list.length && right_cursor < right_list.length){
+                if(left_list[left_cursor] > right_list[right_cursor]){
+                    res[res_cursor++] = right_list[right_cursor++];
+                } else{
+                    res[res_cursor++] = left_list[left_cursor++];
+                }
+            }
+
+            //dealling with the scenarios when one input array is empty 
+            while(left_cursor<left_list.length){
+                res[res_cursor++] = left_list[left_cursor++];
+            }
+            while(right_cursor<right_list.length){
+                res[res_cursor++] = right_list[right_cursor++];
+            }
+            return ret;
+        }
+
+        //bottom-up merge sort, iterative method:
+    public int[] sortArray(int[] nums) {
+        int processLength = 1;//decide how many elements int two lists that needed to combine.
+        int sizeOfArr = nums.length;
+        int [] resArr = new int [sizeOfArr];
+        while (processLength < sizeOfArr){
+            int indexOfProcessElem = 0;
+            //combine the desired num of the input lists.
+            while(indexOfProcessElem < sizeOfArr){
+                int leftStart = indexOfProcessElem;
+                int leftEnd = indexOfProcessElem + processLength - 1;
+                int rightStart = indexOfProcessElem + processLength;
+                int rightEnd = indexOfProcessElem + 2 * processLength - 1;
+                
+                //if the right hand side of the group's start index is out of bound. 
+                if(rightStart >= sizeOfArr){
+                    break;
+                }
+                //if the last group doesn't have enough elements, then shrink the size;
+                if(rightEnd >= sizeOfArr){
+                    rightEnd = sizeOfArr - 1;
+                }
+                int [] temp = merge(nums, leftStart, leftEnd, rightStart, rightEnd);
+                //System.out.println(Arrays.toString(temp));
+                for(int offset = 0; offset<rightEnd - leftStart + 1; offset++){
+                    nums[indexOfProcessElem + offset] = temp[offset];
+                }
+                indexOfProcessElem = indexOfProcessElem + 2 * processLength; 
+            }
+            processLength *= 2;
+        }
+        return nums;
+    }
+
+     public int [] merge(int [] nums, int left_start, int left_end, int right_start, int right_end){
+            int [] left_list = Arrays.copyOfRange(nums, left_start,left_end+1);
+            int [] right_list = Arrays.copyOfRange(nums, right_start, right_end+1);
+            int [] res = new int [left_list.length + right_list.length];
+            int left_cursor = 0, right_cursor = 0, res_cursor = 0;
+
+            while(left_cursor < left_list.length && right_cursor < right_list.length){
+                if(left_list[left_cursor] > right_list[right_cursor]){
+                    res[res_cursor++] = right_list[right_cursor++];
+                } else{
+                    res[res_cursor++] = left_list[left_cursor++];
+                }
+            }
+
+            //dealling with the scenarios when one input array is empty 
+            while(left_cursor<left_list.length){
+                res[res_cursor++] = left_list[left_cursor++];
+            }
+            while(right_cursor<right_list.length){
+                res[res_cursor++] = right_list[right_cursor++];
+            }
+            return res;
+        }
+
+
+
+        *****quick Sort*****
+        public class Solution {
+
+  public void quickSort(int [] lst) {
+   /* Sorts an array in the ascending order in O(n log n) time */
+    int n = lst.length;
+    qSort(lst, 0, n - 1);
+  }
+
+  private void qSort(int [] lst, int lo, int hi) {
+    if (lo < hi) {
+      int p = partition(lst, lo, hi);
+      qSort(lst, lo, p - 1);
+      qSort(lst, p + 1, hi);
+    }
+  }
+
+  private int partition(int [] lst, int lo, int hi) {
+    /*
+      Picks the last element hi as a pivot
+      and returns the index of pivot value in the sorted array */
+    int pivot = lst[hi];
+    int i = lo;
+    for (int j = lo; j < hi; ++j) {
+      if (lst[j] < pivot) {
+        int tmp = lst[i];
+        lst[i] = lst[j];
+        lst[j] = tmp;
+        i++;
+      }
+    }
+    int tmp = lst[i];
+    lst[i] = lst[hi];
+    lst[hi] = tmp;
+    return i;
+  }
+
+}
+
+
+3. Backtracking:
+    Idea: 
+
+
+    Template:
+    def backtrack(candidate):
+        if find_solution(candidate):
+            output(candidate) //store them in a list
+            return
+
+        //iterate all possible candidates 
+        for next_candidate in list_of_candidates: //left right candidate
+            if is_valid(next_candidate):
+                # try this partial candidate solution
+                place(next_Candidate) // try left, right candidate
+                # given the candidate, explore further
+                backtrack(next_candidate)
+                # backtrack
+                remove(next_candidate) revert back.
+
+*backtracking happen at the level of the iteration within the recursion. 
+*is_valid() allows us to prune the search zones. 
+*two symmeric functions that allow us to mark the decision and revert the decision.
+
+
+Conclusion:
+0. In doubt, write down the recurrence relationship.
+1. If see repeat calculation, use Memorization
+2. if see the combine subproblems outcome, use divide-and-Conquer
+3. if see return all the matching conditions, use backtracking
+4. when stackoverflows, tail recursion might come to help.
+
+*************************************
+Tail Recursion:
+
+  
+  private static int helper_non_tail_recursion(int start, int [] ls) {
+    if (start >= ls.length) {
+      return 0;
+    }
+    // not a tail recursion because it does some computation after the recursive call returned.
+    return ls[start] + helper_non_tail_recursion(start+1, ls);
+  }
+
+  public static int sum_non_tail_recursion(int [] ls) {
+    if (ls == null || ls.length == 0) {
+      return 0;
+    }
+    return helper_non_tail_recursion(0, ls);
+  }
+
+  //---------------------------------------------
+
+  private static int helper_tail_recursion(int start, int [] ls, int acc) {
+    if (start >= ls.length) {
+      return acc;
+    }
+    // this is a tail recursion because the final instruction is the recursive call.
+    return helper_tail_recursion(start+1, ls, acc+ls[start]);
+  }
+    
+  public static int sum_tail_recursion(int [] ls) {
+    if (ls == null || ls.length == 0) {
+      return 0;
+    }
+    return helper_tail_recursion(0, ls, 0);
+  }
+  *************************************
+
+
+****************************************
+unfold recursion:
+convert a recursion algorithm to non-recursion one.
+The good news is that we can always convert a recursion to iteration. 
+In order to do so, in general, we use a data structure of stack or queue, 
+which replaces the role of the system call stack during the process of recursion. 
+
+//Validate two nodes.
+class Solution {
+  public boolean check(TreeNode p, TreeNode q) {
+    // p and q are null
+    if (p == null && q == null) return true;
+    // one of p and q is null
+    if (q == null || p == null) return false;
+    if (p.val != q.val) return false;
+    return true;
+  }
+
+  public boolean isSameTree(TreeNode p, TreeNode q) {
+    if (p == null && q == null) return true;
+    if (!check(p, q)) return false;
+    // init deques
+    ArrayDeque<TreeNode> deqP = new ArrayDeque<TreeNode>();
+    ArrayDeque<TreeNode> deqQ = new ArrayDeque<TreeNode>();
+    deqP.addLast(p);
+    deqQ.addLast(q);
+
+    while (!deqP.isEmpty()) {
+      p = deqP.removeFirst();
+      q = deqQ.removeFirst();
+
+      if (!check(p, q)) return false;
+      if (p != null) {
+        // in Java nulls are not allowed in Deque
+        if (!check(p.left, q.left)) return false;
+        if (p.left != null) {
+          deqP.addLast(p.left);
+          deqQ.addLast(q.left);
+        }
+        if (!check(p.right, q.right)) return false;
+        if (p.right != null) {
+          deqP.addLast(p.right);
+          deqQ.addLast(q.right);
+        }
+      }
+    }
+    return true;
+  }
+}
+
+To convert a recursion approach to an iteration one, we could perform the following two steps:
+
+We use a stack or queue data structure within the function, to replace the role of the system call stack. At each occurrence of recursion, we simply push the parameters as a new element into the data structure that we created, instead of invoking a recursion.
+
+In addition, we create a loop over the data structure that we created before. The chain invocation of recursion would then be replaced with the iteration within the loop.
+
+
